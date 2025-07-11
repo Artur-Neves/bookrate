@@ -1,0 +1,100 @@
+services:
+  db-book:
+    image: mysql:8
+    restart: always
+    env_file:
+      - ./env_files/db-book.env
+    ports:
+      - "3310:3306"
+    networks:
+      - neves-network
+    volumes:
+      - mysql-volume-book:/var/lib/mysql
+
+  db-exchange:
+    image: mysql:8
+    restart: always
+    env_file:
+      - ./env_files/db-exchange.env
+    ports:
+      - "3311:3306"
+    networks:
+      - neves-network
+    volumes:
+      - mysql-volume-exchange:/var/lib/mysql
+
+  zipkin-server:
+    image: openzipkin/zipkin:3.5.1
+    restart: always
+    ports:
+      - 9411:9411
+    env_file:
+      - ./env_files/.env
+    networks:
+      - neves-network
+
+  eureka-server:
+    image: arturnevesalmeida/eureka-server:0.0.1-SNAPSHOT
+    restart: always
+    ports:
+      - 8761:8761
+    env_file:
+      - ./env_files/.env
+    depends_on:
+      - zipkin-server
+    networks:
+      - neves-network
+
+  api-gateway:
+    image: arturnevesalmeida/api-gateway:0.0.1-SNAPSHOT
+    restart: always
+    ports:
+      - 8765:8765
+    env_file:
+      - ./env_files/.env
+    depends_on:
+      - zipkin-server
+      - eureka-server
+    networks:
+      - neves-network
+
+  book-service:
+    build:
+      context: ./book-service
+    restart: always
+    ports:
+      - 8100:8100
+    env_file:
+      - ./env_files/.env
+      - ./env_files/book.env
+    depends_on:
+      - eureka-server
+      - db-book
+    networks:
+      - neves-network
+
+  exchange-service:
+    build:
+      context: ./exchange-service
+    restart: always
+    ports:
+      - 8001:8001
+    env_file:
+      - ./env_files/.env
+      - ./env_files/exchange.env
+    depends_on:
+      - eureka-server
+      - db-exchange
+    networks:
+      - neves-network
+
+networks:
+  neves-network:
+    name: neves-network
+    driver: bridge
+
+volumes:
+  mysql-volume-book:
+    driver: local
+  mysql-volume-exchange:
+    driver: local

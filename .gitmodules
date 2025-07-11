@@ -1,0 +1,12 @@
+[submodule "book-service"]
+	path = book-service
+	url = https://github.com/Artur-Neves/bookrate-book-service.git
+[submodule "exchange-service"]
+	path = exchange-service
+	url = https://github.com/Artur-Neves/bookrate-exchange-service.git
+[submodule "api-gateway"]
+	path = api-gateway
+	url = https://github.com/Artur-Neves/bookrate-api-gateway.git
+[submodule "eureka-server"]
+	path = eureka-server
+	url = https://github.com/Artur-Neves/bookrate-eureka-server.git
