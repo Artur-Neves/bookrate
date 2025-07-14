@@ -33,5 +33,4 @@ jobs:
         distribution: 'adopt' 
 
     - name: Build Eureka Naming Server Docker Image 
-      run: |
-        ls ./eureka-server
+      run: mvn spring-boot:build-image -DskipTests  
