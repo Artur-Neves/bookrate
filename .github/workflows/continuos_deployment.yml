@@ -39,3 +39,10 @@ jobs:
     - name: Build Api Gateway Server Docker Image
       working-directory: ./api-gateway
       run: mvn spring-boot:build-image -DskipTests
+
+    - name: Build Book Service Docker Image
+      working-directory: ./book-service
+      run: mvn clean package
+      
+    - name: Docker compose build
+      run: docker compose build
