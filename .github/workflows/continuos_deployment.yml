@@ -32,6 +32,10 @@ jobs:
         java-version: '21'
         distribution: 'adopt' 
 
-    - name: Build Eureka Naming Server Docker Image 
+    - name: Build Eureka Server Docker Image 
       working-directory: ./eureka-server
       run: mvn spring-boot:build-image -DskipTests  
+
+    - name: Build Api Gateway Server Docker Image
+      working-directory: ./api-gateway
+      run: mvn spring-boot:build-image -DskipTests
