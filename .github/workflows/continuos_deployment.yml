@@ -52,7 +52,16 @@ jobs:
       run: docker compose build
 
     - name: Tag Docker Images
-      run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/eureka-server:0.0.1-SNAPSHOT ${{ secrets.DOCKERHUB_USERNAME }}/eureka-server:latest
+      run: |
+        docker tag ${{ secrets.DOCKERHUB_USERNAME }}/eureka-server:0.0.1-SNAPSHOT ${{ secrets.DOCKERHUB_USERNAME }}/eureka-server:latest
+        docker tag ${{ secrets.DOCKERHUB_USERNAME }}/eureka-server:0.0.1-SNAPSHOT ${{ secrets.DOCKERHUB_USERNAME }}/eureka-server:${{github.RUN_ID}}
+        docker tag ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:0.0.1-SNAPSHOT ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:latest
+        docker tag ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:0.0.1-SNAPSHOT ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:${{github.RUN_ID}}
 
     - name: Push Docer Images to Docker Hub
-      run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:0.0.1-SNAPSHOT ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:latest
+      run: |
+        docker push ${{secrets.DOCKERHUB_USERNAME}}/api-gateway:latest
+        docker push ${{secrets.DOCKERHUB_USERNAME}}/api-gateway:${{github.RUN_ID}}
+        docker push ${{secrets.DOCKERHUB_USERNAME}}/eureka-server:latest
+        docker push ${{secrets.DOCKERHUB_USERNAME}}/eureka-server:${{github.RUN_ID}}
+        
