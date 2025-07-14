@@ -30,4 +30,4 @@ jobs:
 
     - name: Build Eureka Naming Server Docker Image 
       run: |
-        ls 
+        ls ./eureka-server
