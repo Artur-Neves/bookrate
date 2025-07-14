@@ -29,4 +29,4 @@ jobs:
 
     - name: Build Eureka Naming Server Docker Image 
       working-directory: ./exchange-service
-      run: mvn spring-boot-build-image -DskipTests
+      run: mvn spring-boot:build-image -DskipTests
