@@ -32,4 +32,3 @@ jobs:
       working-directory: ./eureka-server
       run: |
         ls 
-        mvn spring-boot:build-image -DskipTests
