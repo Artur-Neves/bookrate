@@ -29,6 +29,5 @@ jobs:
         distribution: 'adopt' 
 
     - name: Build Eureka Naming Server Docker Image 
-      working-directory: ./eureka-server
       run: |
         ls 
