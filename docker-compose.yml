@@ -23,40 +23,6 @@ services:
     volumes:
       - mysql-volume-exchange:/var/lib/mysql
 
-  zipkin-server:
-    image: openzipkin/zipkin:3.5.1
-    restart: always
-    ports:
-      - 9411:9411
-    env_file:
-      - ./env_files/.env
-    networks:
-      - neves-network
-
-  eureka-server:
-    image: arturnevesalmeida/eureka-server:0.0.1-SNAPSHOT
-    restart: always
-    ports:
-      - 8761:8761
-    env_file:
-      - ./env_files/.env
-    depends_on:
-      - zipkin-server
-    networks:
-      - neves-network
-
-  api-gateway:
-    image: arturnevesalmeida/api-gateway:0.0.1-SNAPSHOT
-    restart: always
-    ports:
-      - 8765:8765
-    env_file:
-      - ./env_files/.env
-    depends_on:
-      - zipkin-server
-      - eureka-server
-    networks:
-      - neves-network
 
   book-service:
     image: arturnevesalmeida/book-service
@@ -70,7 +36,6 @@ services:
       - ./env_files/.env
       - ./env_files/book.env
     depends_on:
-      - eureka-server
       - db-book
     networks:
       - neves-network
@@ -87,7 +52,6 @@ services:
       - ./env_files/.env
       - ./env_files/exchange.env
     depends_on:
-      - eureka-server
       - db-exchange
     networks:
       - neves-network

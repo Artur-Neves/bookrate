@@ -2,9 +2,9 @@ name: Microsservices Continuos Deployment with Git
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "branch-update-config-with-kubernetes" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "branch-update-config-with-kubernetes" ]
 
 jobs:
 
@@ -32,14 +32,6 @@ jobs:
         java-version: '21'
         distribution: 'adopt' 
 
-    - name: Build Eureka Server Docker Image 
-      working-directory: ./eureka-server
-      run: mvn spring-boot:build-image  
-
-    - name: Build Api Gateway Server Docker Image
-      working-directory: ./api-gateway
-      run: mvn spring-boot:build-image 
-
     - name: Build Book Service Docker Image
       working-directory: ./book-service
       run: mvn clean package
@@ -53,21 +45,17 @@ jobs:
 
     - name: Tag Docker Images
       run: |
-        docker tag ${{ secrets.DOCKERHUB_USERNAME }}/eureka-server:0.0.1-SNAPSHOT ${{ secrets.DOCKERHUB_USERNAME }}/eureka-server:latest
-        docker tag ${{ secrets.DOCKERHUB_USERNAME }}/eureka-server:0.0.1-SNAPSHOT ${{ secrets.DOCKERHUB_USERNAME }}/eureka-server:${{github.RUN_ID}}
-        docker tag ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:0.0.1-SNAPSHOT ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:latest
-        docker tag ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:0.0.1-SNAPSHOT ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:${{github.RUN_ID}}
         docker tag ${{ secrets.DOCKERHUB_USERNAME }}/book-service:latest ${{ secrets.DOCKERHUB_USERNAME }}/book-service:${{github.RUN_ID}}
+        docker tag ${{ secrets.DOCKERHUB_USERNAME }}/book-service:latest ${{ secrets.DOCKERHUB_USERNAME }}/book-service:kube-V1
         docker tag ${{ secrets.DOCKERHUB_USERNAME }}/exchange-service:latest ${{ secrets.DOCKERHUB_USERNAME }}/exchange-service:${{github.RUN_ID}}
+        docker tag ${{ secrets.DOCKERHUB_USERNAME }}/exchange-service:latest ${{ secrets.DOCKERHUB_USERNAME }}/exchange-service:kube-V1
 
-    - name: Push Docer Images to Docker Hub
+    - name: Push Docker Images to Docker Hub
       run: |
-        docker push ${{secrets.DOCKERHUB_USERNAME}}/api-gateway:latest
-        docker push ${{secrets.DOCKERHUB_USERNAME}}/api-gateway:${{github.RUN_ID}}
-        docker push ${{secrets.DOCKERHUB_USERNAME}}/eureka-server:latest
-        docker push ${{secrets.DOCKERHUB_USERNAME}}/eureka-server:${{github.RUN_ID}}
         docker push ${{secrets.DOCKERHUB_USERNAME}}/book-service:latest
+        docker push ${{secrets.DOCKERHUB_USERNAME}}/book-service:kube-V1
         docker push ${{secrets.DOCKERHUB_USERNAME}}/book-service:${{github.RUN_ID}}
         docker push ${{secrets.DOCKERHUB_USERNAME}}/exchange-service:latest
+        docker push ${{secrets.DOCKERHUB_USERNAME}}/exchange-service:kube-V1
         docker push ${{secrets.DOCKERHUB_USERNAME}}/exchange-service:${{github.RUN_ID}}
         
