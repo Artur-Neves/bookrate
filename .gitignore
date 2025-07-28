@@ -17,7 +17,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
-
+*./secret-env.yaml
 ### IntelliJ IDEA ###
 .idea
 *.iws
