@@ -8,7 +8,7 @@ Este é um projeto com fins acadêmicos, desenvolvido para praticar conceitos de
 
 O repositório principal contém os seguintes serviços:
 
-- [`api-gateway`](https://github.com/Artur-Neves/bookrate-api-gatewa)
+- [`api-gateway`](https://github.com/Artur-Neves/bookrate-api-gateway)
 - [`eureka-server`](https://github.com/Artur-Neves/bookrate-eureka-server)
 - [`book-service`](https://github.com/Artur-Neves/book-service)
 - [`exchange-service`](https://github.com/Artur-Neves/exchange-service)
