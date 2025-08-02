@@ -35,6 +35,7 @@ Todos os serviços são **containerizados com Docker** e orquestrados localmente
 |--------------------|-----------------------------------------------|
 | Linguagem          | Java 17                                       |
 | Framework          | Spring Boot, Spring Cloud                    |
+| Banco de dados     | MySQL + Flyway                               |
 | Comunicação        | REST API, API Gateway, Eureka Discovery      |
 | Documentação       | Swagger / Springdoc OpenAPI                  |
 | Containerização    | Docker                                        |
